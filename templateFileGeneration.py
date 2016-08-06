@@ -1,3 +1,5 @@
+import os
+
 class TemplateGeneration():
     ''' Template class for data extraction, the file parser has extracted '''
     FILE_ENDING = None

@@ -1,4 +1,3 @@
-import os
 from templateFileGeneration import *
 
 class GenerateTextRegisterMap(TemplateGeneration):
