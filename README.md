@@ -1,7 +1,7 @@
-# VDHL_extract_AXI_slave_register_definition
+# VARED - VHDL Automatic Register Extract  Definition 
 
-This script will generate AXI slave register definitions from VHDL sources. 
-The script will through all sub directories and look for the files with ending "S00_AXI.vhd". These files will be parsed for all existing slave register.
+This script will generate AXI register definitions from VHDL sources. 
+The script will through all sub directories and look for the files with ending "S00_AXI.vhd". These files will be parsed for all existing register.
 
 Following there is an example with snippets from VHDL source code, which will recognized correctly (buffer_engine is this example).
 All necessary syntax is in double quotes.
