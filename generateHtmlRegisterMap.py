@@ -35,9 +35,9 @@ class GenerateHTMLMap(TemplateGeneration):
         ''' extract the bits for a register and calculate / generate the bits '''
         return_string = ''
         key_value_pair = sorted(key_value_pair, key=self._get_key)
-        shift_value = ''
         bit_mask_value = 0
         for name, value in key_value_pair:
+            shift_value = ''
             if(len(value[0])>1 and isinstance(value[0], list)):
                 bit_value_list = [int(i) for i in value[0]]
                 bit_list = range(max(bit_value_list), min(bit_value_list)-1, -1)
