@@ -8,22 +8,26 @@ class TemplateGeneration():
     REGISTER_BIT_INFORMATION = None
     COMPONENT_NAMING_AND_DEFINTION = None
     AUTOGENERATION_HINT = None
+    INCLUDE_GUARD_WRITTEN = False
 
     def __init__(self, parsed_file, output_file_name):
         self.parsed_file = parsed_file
+        self.output_file_name = output_file_name
+        if(os.path.exists(output_file_name.format(self.FILE_ENDING))):
+            self.INCLUDE_GUARD_WRITTEN = True
         self.output_file = open(output_file_name.format(self.FILE_ENDING), 'a')
         self._write()
 
     def _extract_variable_name(self, temp_reg):
         ''' extract the register name if it has an alias. If it doesn't have a alias it will be called as original name generated in VHDL '''
-        if(self.parsed_file.register[temp_reg].variable_name != None):
+        if(self.parsed_file.register[temp_reg].variable_name is not None):
             return self.parsed_file.register[temp_reg].variable_name
         else:
             return self.parsed_file.register[temp_reg].orginal_slave_name
                 
     def _extract_date_information(self, datestring):
         ''' extract and format the date information to more readable string '''
-        if(datestring != None):
+        if(datestring is not None):
             return '{2}-{1}-20{0} Daily: {3}'.format(datestring[:2], datestring[2:4], datestring[4:6], datestring[6:])
         else:
             return 'No Information Found!'
