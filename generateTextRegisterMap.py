@@ -3,7 +3,7 @@ from templateFileGeneration import *
 class GenerateTextRegisterMap(TemplateGeneration):
     
     FILE_ENDING = '.txt'
-    BIT_DEFINE_STRING = '\t\t{0} = {1};\n'
+    BIT_DEFINE_STRING = '\t\t{2}[{0}] = {1};\n'
     GENERAL_REGISTER_DEFINITION = '{0:<70}{1:>20}{2:>20}\n{3}'
     REGISTER_BIT_INFORMATION = '{0} {1}\n\n{2}\n'
     COMPONENT_NAMING_AND_DEFINTION = 180*'#' + '\nComponent {0} (IP Core Version: {1})\n{2}\n'
