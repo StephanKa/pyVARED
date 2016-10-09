@@ -24,6 +24,7 @@ architecture arch_imp of test_v1_0_S00_AXI is
   constant TEST"_VERSION" : std_logic_vector(31 downto 0) := x"16061301"; -- year, month, day, build number (one byte each)
 
   "alias" "a_"test_interrupt_control : std_logic_vector(31 downto 0) is slv_reg1("31 downto 0");
+  "alias" "a_"control_register: std_logic_vector(5 downto 0) is slv_reg1("20 downto 15");
   "alias" "a_"test_interrupt_enable : std_logic is slv_reg1("31");
   ...
   
