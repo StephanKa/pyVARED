@@ -36,19 +36,19 @@ class FileParseOperation():
             bit_depth = line[line.rfind('(')+1:line.rfind(')')].replace(' ', '')
             try:
                 if('downto' in bit_depth):
-                    bit_depth = [int(bit_depth[:bit_depth.find('do')]), int(bit_depth[bit_depth.rfind('to')+2:])]
-                elif('to'):
+                    bit_depth = [int(bit_depth[:bit_depth.find('do')]), int(bit_depth[bit_depth.rfind('to') + 2:])]
+                    if((bit_depth[0]-bit_depth[1]) == REGISTER_SIZE-1):
+                        self.register[temp_reg_name].variable_name = alias_name.upper()
+                        if('control' in alias_name):
+                            self.register[temp_reg_name].option['write'] = True
+                            self.register[temp_reg_name].option['finished'] = True
+                        elif('status' in alias_name):
+                            self.register[temp_reg_name].option['read'] = True
+                            self.register[temp_reg_name].option['finished'] = True
+                    elif((bit_depth[0]-bit_depth[1]) < REGISTER_SIZE-1):
+                        self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
+                elif('to' in bit_depth):
                     pass
-                else:
-                    bit_depth = int(bit_depth)
-                if(bit_depth[0] == REGISTER_SIZE-1):
-                    self.register[temp_reg_name].variable_name = alias_name.upper()
-                    if('control' in alias_name):
-                        self.register[temp_reg_name].option['write'] = True
-                        self.register[temp_reg_name].option['finished'] = True
-                    elif('status' in alias_name):
-                        self.register[temp_reg_name].option['read'] = True
-                        self.register[temp_reg_name].option['finished'] = True
                 else:
                     self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
             except Exception as e:
