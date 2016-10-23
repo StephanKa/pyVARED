@@ -40,8 +40,9 @@ if __name__ == '__main__':
                 # save information for an overall view in html
                 component_name.append([fops.component_name, fops.ip_core_version, fops.register])
     # generate index of all components
-    if(os.path.exists(OUTPUT_FILENAME.format('.h'))):
-        temp = open(OUTPUT_FILENAME.format('.h'), 'a')
+    # TODO: fix that ugly workaround for close the include guard definition
+    if(os.path.exists(OUTPUT_FILENAME.format('.hpp'))):
+        temp = open(OUTPUT_FILENAME.format('.hpp'), 'a')
         temp.write('#endif // {0}\n'.format(GenerateCHeader.INCLUDE_GUARD.format(OUTPUT_FILENAME.format("").upper())))
     if(component_name != []):
         GenerateComponentIndex(component_name, OUTPUT_FILENAME)

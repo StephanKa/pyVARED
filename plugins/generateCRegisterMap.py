@@ -3,7 +3,7 @@ from templateFileGeneration import *
 
 class GenerateCHeader(TemplateGeneration):
 
-    FILE_ENDING = '.h'
+    FILE_ENDING = '.hpp'
     BIT_DEFINE_STRING = '\t\tconst int {2} = {1};\n'
     GENERAL_REGISTER_DEFINITION = '\tconst int {0} = {1}; //{2}\n'
     REGISTER_BIT_INFORMATION = '\tnamespace {0}_BITS\n\t{{\n{1}\t}}\n'
