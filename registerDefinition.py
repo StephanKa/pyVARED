@@ -28,4 +28,5 @@ class RegisterDefinition():
         if(name is not None and value is not None):
             self.bit_definition.append([name, value])
         else:
-            print('one of the following parameters are empty or wrong!\nname: {0}\nvalue{1}'.format(name, value))
+            print('one of the following parameters are \
+            empty or wrong!\nname: {0}\nvalue{1}'.format(name, value))
