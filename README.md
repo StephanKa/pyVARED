@@ -1,4 +1,4 @@
-# VARED - VHDL Automatic Register Extract  Definition 
+# pyVARED - Python VHDL Automatic Register Extract Definition 
 
 This script will generate AXI register definitions from VHDL sources. 
 The script will through all sub directories and look for the files with ending "S00_AXI.vhd". These files will be parsed for all existing register.
@@ -52,3 +52,16 @@ architecture arch_imp of test_v1_0_S00_AXI is
 
 end arch_imp;
 ```
+
+# General
+## main.py
+The starting point is the script where all the magic will start.
+
+## registerDefinition.py
+With this script we define a class which contains all needed information about the register.
+
+## template.py
+This script will hold a class in it which comes with a template definition you can use for deriving and add own defintion for any other programming language
+
+## vhdlFileParser.py
+This script will called everytime there is a register definition file found and it will extract all needed informations.
