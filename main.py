@@ -6,15 +6,15 @@ import os
 import time
 from registerDefinition import *
 from vhdlFileParser import *
-from generateTextRegisterMap import *
-from generateHtmlRegisterMap import *
-from generatePythonRegisterMap import *
-from generateCRegisterMap import *
+from plugins.generateTextRegisterMap import *
+from plugins.generateHtmlRegisterMap import *
+from plugins.generatePythonRegisterMap import *
+from plugins.generateCRegisterMap import *
 
 if __name__ == '__main__':
     begin_time = time.time()
     PATH = os.getcwd() + '/ip_repo'
-    OUTPUT_FILENAME = 'hardware_register_map{0}'
+    OUTPUT_FILENAME = 'generated/hardware_register_map{0}'
     SEARCH_FILE_ENDING = 'S00_AXI.vhd'
     component_name = []
     # defines for the output files
