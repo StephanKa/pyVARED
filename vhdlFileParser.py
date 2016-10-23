@@ -2,8 +2,9 @@ from registerDefinition import *
 
 REGISTER_SIZE = 32
 
+
 class FileParseOperation():
-    
+
     def __init__(self, path):
         self.file_path = path
         self.variable_definition = False
@@ -62,7 +63,7 @@ class FileParseOperation():
                 if(self.register[temp_reg].binary_coded == temp_binary_address):
                     return (temp_reg, True)
             return (None, False, int(line[line.find('"')+1: line.rfind('"')], 2))
-        
+
     def _parse_file_for_slave_register(self):
         self.version_check = False
         self.temp_register_name = None
@@ -73,7 +74,7 @@ class FileParseOperation():
             if(self.variable_definition):
                 self._extract_bit_definition(line)
             if('constant' in line and '_VERSION' in line):
-                # we need the name for further mapping of the slv reg and also the version definition 
+                # we need the name for further mapping of the slv reg and also the version definition
                 self.ip_core_version_naming = line[line.find('constant ')+9:line.find('SION')+4]
                 self.ip_core_version = line[line.find('x"')+2:line.rfind('";')]
             ############## read and write access must be defined ##############
@@ -91,14 +92,16 @@ class FileParseOperation():
             if(self.read_process):
                 boolean_read = self._check_address_and_register_binary(line)
                 if(self.version_check):
-                    if(self.ip_core_version_naming != None and self.ip_core_version_naming in line):
+                    if(self.ip_core_version_naming is not None
+                       and self.ip_core_version_naming in line):
                         temp_slv_name = 'slv_reg{0}'.format(self.temp_register_name)
                         self.register[temp_slv_name] = RegisterDefinition()
                         self.register[temp_slv_name].component_name = self.component_name
                         self.register[temp_slv_name].orginal_slave_name = self.ip_core_version_naming
                         self.register[temp_slv_name].binary_coded = bin(self.temp_register_name)
                     self.version_check = False
-                if(boolean_read == None): continue
+                if(boolean_read is None):
+                    continue
                 elif(len(boolean_read) > 2):
                     self.version_check = True
                     self.temp_register_name = boolean_read[2]
@@ -106,7 +109,8 @@ class FileParseOperation():
                     self.register[boolean_read[0]].option['read'] = True
             if(self.write_process):
                 boolean_write = self._check_address_and_register_binary(line)
-                if(boolean_write == None): continue
+                if(boolean_write is None):
+                    continue
                 elif(boolean_write[1]):
                     self.register[boolean_write[0]].option['write'] = True
             if('end process' in line):
@@ -114,7 +118,6 @@ class FileParseOperation():
                 self.read_process = False
                 self.write_process = False
                 self.version_check = False
-        
         ############## set the attributes of the enumeration ##############
         for temp_register_map in self.register.keys():
             self.register[temp_register_map].ip_core_version = self.ip_core_version
