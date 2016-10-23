@@ -114,10 +114,9 @@ architecture arch_imp of test_v1_0_S00_AXI is
   signal slv_reg_wren : std_logic;
   signal reg_data_out :std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
   signal byte_index : integer;
-  
-  -- bepd version
+
+  -- component version
   constant COMPONENT_VERSION : std_logic_vector(31 downto 0) := x"16010100"; -- year, month, day, build number (one byte each)
-  
 
   alias a_test_control_register : std_logic_vector(31 downto 0) is slv_reg1(31 downto 0);
   alias a_test_enable : std_logic is slv_reg1(31);
