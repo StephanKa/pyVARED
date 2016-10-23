@@ -1,10 +1,11 @@
 from templateFileGeneration import *
 
+
 class GeneratePythonModule(TemplateGeneration):
-    
+
     FILE_ENDING = '.py'
     # Four spaces is the default spacing
-    SPACING = '    '
+    SPACING = 4 * ' '
     BIT_DEFINE_STRING = 3 * SPACING + '("{2}", {1}),\n'
     GENERAL_REGISTER_DEFINITION = SPACING + '{0} = {1} # {2}\n'
     REGISTER_BIT_INFORMATION = SPACING + 'class {0}_MASK(int):\n' + 2 * SPACING + '_values = [\n{1}' + 2 * SPACING + ']\n{2}\n\n'
@@ -18,15 +19,15 @@ class GeneratePythonModule(TemplateGeneration):
         keylist.sort()
         property_comment = self.SPACING + '# this will add the property name to the class\n'
         for temp_reg in keylist:
-            add_property = '{0}\tfor i, j in {1}_MASK._values:\n\t\tsetattr({1}, i, {1}(j))'.format(property_comment, self._extract_variable_name(temp_reg))
-            return_string += self.GENERAL_REGISTER_DEFINITION.format(self._extract_variable_name(temp_reg), 
-                                                                     self._calculate_register_offset(self.parsed_file.register[temp_reg].binary_coded[2:]), 
+            add_property = '{0}{2}for i, j in {1}_MASK._values:\n\t\tsetattr({1}, i, {1}(j))'.format(property_comment, self._extract_variable_name(temp_reg), self.SPACING)
+            return_string += self.GENERAL_REGISTER_DEFINITION.format(self._extract_variable_name(temp_reg),
+                                                                     self._calculate_register_offset(self.parsed_file.register[temp_reg].binary_coded[2:]),
                                                                      self._extract_read_write_option(self.parsed_file.register[temp_reg].option))
-            return_string += self.REGISTER_BIT_INFORMATION.format(self._extract_variable_name(temp_reg), 
-                                                                  self._extract_bit_defintion(self.parsed_file.register[temp_reg].bit_definition), 
+            return_string += self.REGISTER_BIT_INFORMATION.format(self._extract_variable_name(temp_reg),
+                                                                  self._extract_bit_defintion(self.parsed_file.register[temp_reg].bit_definition),
                                                                   add_property)
         return return_string
-        
+
     def _write(self):
         ''' write the whole file '''
         self.output_file.write(self.AUTOGENERATION_HINT)

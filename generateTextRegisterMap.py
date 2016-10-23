@@ -1,7 +1,8 @@
 from templateFileGeneration import *
 
+
 class GenerateTextRegisterMap(TemplateGeneration):
-    
+
     FILE_ENDING = '.txt'
     BIT_DEFINE_STRING = '\t\t{2}[{0}] = {1};\n'
     GENERAL_REGISTER_DEFINITION = '{0:<70}{1:>20}{2:>20}\n{3}'
@@ -17,12 +18,12 @@ class GenerateTextRegisterMap(TemplateGeneration):
         property_comment = '\t# this will add the property name to the class\n'
         for temp_reg in keylist:
             add_property = ''
-            return_string += self.GENERAL_REGISTER_DEFINITION.format(self._extract_variable_name(temp_reg), 
-                                                                     self._calculate_register_offset(self.parsed_file.register[temp_reg].binary_coded[2:]), 
+            return_string += self.GENERAL_REGISTER_DEFINITION.format(self._extract_variable_name(temp_reg),
+                                                                     self._calculate_register_offset(self.parsed_file.register[temp_reg].binary_coded[2:]),
                                                                      self._extract_read_write_option(self.parsed_file.register[temp_reg].option), 180*'-')
             return_string += self.REGISTER_BIT_INFORMATION.format(self._extract_bit_defintion(self.parsed_file.register[temp_reg].bit_definition), add_property, 180*'.')
         return return_string
-        
+
     def _write(self):
         ''' write the whole file '''
         self.output_file.write(self.AUTOGENERATION_HINT)
