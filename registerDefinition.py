@@ -17,7 +17,12 @@ class RegisterDefinition():
                     Variable Name: {2}\n
                     Binary Coded: {3}\n
                     IP Core Version: {4}\n
-                    Option: {5}'''.format(self.component_name, self.orginal_slave_name, self.variable_name, self.binary_coded, self.ip_core_version, self.option)
+                    Option: {5}'''.format(self.component_name,
+                                          self.orginal_slave_name,
+                                          self.variable_name,
+                                          self.binary_coded,
+                                          self.ip_core_version,
+                                          self.option)
 
     def _add_bit_definition(self, name, value):
         if(name is not None and value is not None):
