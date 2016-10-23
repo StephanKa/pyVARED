@@ -65,3 +65,6 @@ This script will hold a class in it which comes with a template definition you c
 
 ## vhdlFileParser.py
 This script will called everytime there is a register definition file found and it will extract all needed informations.
+
+# Create new programming generation files
+File name: "generate<LANGUAGENAME>RegisterMap.<LANGUAGEEND>" 
