@@ -45,6 +45,8 @@ architecture arch_imp of test_v1_0_S00_AXI is
   alias a_test_enable_1 : std_logic is slv_reg1(1);
   alias a_test_enable_0 : std_logic is slv_reg1(0);  
   alias a_level_register : std_logic_vector(31 downto 0) is slv_reg2(31 downto 0);
+  alias a_to_register : std_logic_vector(0 to 31) is slv_reg3(0 to 31);
+  alias a_to : std_logic_vector(0 to 10) is slv_reg3(0 to 10);
   alias a_level : std_logic_vector(10 downto 0) is slv_reg2(10 downto 0);
   ...
   -- component version
