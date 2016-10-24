@@ -47,22 +47,29 @@ class FileParseOperation():
                 if('downto' in bit_depth):
                     bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
                     if((bit_depth[0]-bit_depth[1]) == REGISTER_SIZE-1):
-                        self.register[temp_reg_name].variable_name = alias_name.upper()
-                        if('control' in alias_name):
-                            self.register[temp_reg_name].option['write'] = True
-                            self.register[temp_reg_name].option['finished'] = True
-                        elif('status' in alias_name):
-                            self.register[temp_reg_name].option['read'] = True
-                            self.register[temp_reg_name].option['finished'] = True
+                        self._extract_status_control(bit_depth, alias_name, temp_reg_name)
                     elif((bit_depth[0]-bit_depth[1]) < REGISTER_SIZE-1):
                         self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
                 elif('to' in bit_depth):
-                    pass
+                    bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
+                    if((bit_depth[1]-bit_depth[0]) == REGISTER_SIZE-1):
+                        self._extract_status_control(bit_depth, alias_name, temp_reg_name)
+                    elif((bit_depth[1]-bit_depth[0]) < REGISTER_SIZE-1):
+                        self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
                 else:
                     self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth[-1], ])
             except Exception as e:
                 print(alias_name)
                 print('Cannot convert bit_depth "{0}" type: "{1}"\n{2}'.format(bit_depth, type(bit_depth), str(e)))
+
+    def _extract_status_control(self, bit_depth, alias_name, temp_reg_name):
+        self.register[temp_reg_name].variable_name = alias_name.upper()
+        if('control' in alias_name):
+            self.register[temp_reg_name].option['write'] = True
+            self.register[temp_reg_name].option['finished'] = True
+        elif('status' in alias_name):
+            self.register[temp_reg_name].option['read'] = True
+            self.register[temp_reg_name].option['finished'] = True
 
     def _check_address_and_register_binary(self, line):
         if('when b"' in line):
