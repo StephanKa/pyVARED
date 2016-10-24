@@ -1,6 +1,14 @@
 from registerDefinition import *
+import re
 
 REGISTER_SIZE = 32
+REGEX_SLAVE_REG_NAME = re.compile(r'(?:slv\w+[^\W_])')
+REGEX_SLAVE_REG_DEFINITION = re.compile(r'(?:slv_reg\d+\(\d+\))')
+REGEX_SLAVE_REG_ALIAS_NAME = re.compile(r'(?:(?<=a_)\w+)')
+REGEX_VERSION_NAME = re.compile(r'(\w+)(?:_VERSION)')
+REGEX_VERSION_NUMBER_HEX = re.compile(r'(?<=x\")[^\"]\d+[^\"]')
+REGEX_VERSION_NUMBER_BIN = re.compile(r'(?<=b\")[^\"]\d+[^\"]')
+REGEX_REGISTER_DEFINITION = re.compile(r'(?<=\()(\d+)[^\b](\w+)[^\b](\d+)|(?<=\()(\d+)')
 
 
 class FileParseOperation():
@@ -24,20 +32,20 @@ class FileParseOperation():
     def _extract_bit_definition(self, line):
         if('signal slv_reg' in line and 'signal slv_reg_' not in line):
             ############## extract the slave register name and get rid of unnecessary symbols ##############
-            slave_name = line[line.find('slv'):line.find(':')].replace(' ', '').replace('\t', '')
+            slave_name = REGEX_SLAVE_REG_NAME.search(line).group()
             self.register[slave_name] = RegisterDefinition()
             self.register[slave_name].component_name = self.component_name
             self.register[slave_name].orginal_slave_name = slave_name
             self.register[slave_name].binary_coded = bin(int(slave_name[slave_name.find('g')+1:]))
         elif('alias' in line and 'slv_reg' in line):
             ############## extract big definition here ##############
-            temp_reg_name = line[line.find('slv_'):line.rfind('(')]
-            alias_search_string = 'alias a_'
-            alias_name = line[line.find(alias_search_string)+len(alias_search_string):line.find(':')].replace(' ', '')
-            bit_depth = line[line.rfind('(')+1:line.rfind(')')].replace(' ', '')
+            temp_reg_name = REGEX_SLAVE_REG_NAME.search(line).group()
+            alias_name = REGEX_SLAVE_REG_ALIAS_NAME.search(line).group()
+            definition = REGEX_REGISTER_DEFINITION.findall(line)
+            bit_depth = definition[0]
             try:
                 if('downto' in bit_depth):
-                    bit_depth = [int(bit_depth[:bit_depth.find('do')]), int(bit_depth[bit_depth.rfind('to') + 2:])]
+                    bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
                     if((bit_depth[0]-bit_depth[1]) == REGISTER_SIZE-1):
                         self.register[temp_reg_name].variable_name = alias_name.upper()
                         if('control' in alias_name):
@@ -51,18 +59,18 @@ class FileParseOperation():
                 elif('to' in bit_depth):
                     pass
                 else:
-                    self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
+                    self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth[-1], ])
             except Exception as e:
                 print(alias_name)
                 print('Cannot convert bit_depth "{0}" type: "{1}"\n{2}'.format(bit_depth, type(bit_depth), str(e)))
 
     def _check_address_and_register_binary(self, line):
         if('when b"' in line):
-            temp_binary_address = bin(int(line[line.find('"')+1: line.rfind('"')], 2))
+            temp_binary_address = bin(int(REGEX_VERSION_NUMBER_BIN.search(line).group(), 2))
             for temp_reg in self.register.keys():
                 if(self.register[temp_reg].binary_coded == temp_binary_address):
                     return (temp_reg, True)
-            return (None, False, int(line[line.find('"')+1: line.rfind('"')], 2))
+            return (None, False, int(REGEX_VERSION_NUMBER_BIN.search(line).group(), 2))
 
     def _parse_file_for_slave_register(self):
         self.version_check = False
@@ -75,8 +83,8 @@ class FileParseOperation():
                 self._extract_bit_definition(line)
             if('constant' in line and '_VERSION' in line):
                 # we need the name for further mapping of the slv reg and also the version definition
-                self.ip_core_version_naming = line[line.find('constant ')+9:line.find('SION')+4]
-                self.ip_core_version = line[line.find('x"')+2:line.rfind('";')]
+                self.ip_core_version_naming = REGEX_VERSION_NAME.search(line).group()
+                self.ip_core_version = REGEX_VERSION_NUMBER_HEX.search(line).group()
             ############## read and write access must be defined ##############
             if('begin' in line):
                 self.variable_definition = False
