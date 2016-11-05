@@ -11,6 +11,7 @@ from plugins.generateHtmlRegisterMap import *
 from plugins.generatePythonRegisterMap import *
 from plugins.generateCRegisterMap import *
 
+
 if __name__ == '__main__':
     begin_time = time.time()
     PATH = os.getcwd() + '/ip_repo'
