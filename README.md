@@ -3,8 +3,7 @@
 This script will generate AXI register definitions from VHDL sources. 
 The script will through all sub directories and look for the files with ending "S00_AXI.vhd". These files will be parsed for all existing register.
 
-Following there is an example with snippets from VHDL source code, which will recognized correctly (test.vhdl is this example).
-All necessary syntax is in double quotes.
+Following there is an example with snippets from VHDL source code, which will recognized correctly (test_v1_0_S00_AXI.vhd is this example).
 
 ```vhdl
 entity test_v1_0_S00_AXI is
@@ -69,4 +68,5 @@ This script will hold a class in it which comes with a template definition you c
 This script will called everytime there is a register definition file found and it will extract all needed informations.
 
 # Create new programming generation files
-File name: 'generate< LANGUAGENAME >RegisterMap.< LANGUAGEENDING >' 
+Put your new plugin the in plugin folder. Derive from the TemplateClass und write your code down there
+File name: 'generate< LANGUAGENAME >RegisterMap.< LANGUAGEENDING >'
