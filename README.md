@@ -70,3 +70,5 @@ This script will called everytime there is a register definition file found and 
 # Create new programming generation files
 Put your new plugin the in plugin folder. Derive from the TemplateClass und write your code down there
 File name: 'generate< LANGUAGENAME >RegisterMap.< LANGUAGEENDING >'
+
+If you want to add a plugin to this repository, please make sure that you pass the "PEP8 Style Gudie" (use "pycodestyle" for checking)
