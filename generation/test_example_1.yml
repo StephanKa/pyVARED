@@ -9,7 +9,7 @@ Component:
             Documentation: Text hier
             Option:
                 read: True
-                write: True
+                write: False
                 clear_on_read: True
             Bits:
                 IRQ1: 0

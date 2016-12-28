@@ -200,8 +200,18 @@ begin
   -- Slave register write enable is asserted when valid address and data are available
   -- and the slave is ready to accept the write address and write data.
   slv_reg_wren <= axi_wready and S_AXI_WVALID and axi_awready and S_AXI_AWVALID ;
-
+  
+  process (S_AXI_ACLK)
+  variable loc_addr :std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
+  begin
+    if rising_edge(S_AXI_ACLK) then
+      if S_AXI_ARESETN = '0' then
 %%write_process
+          end case;
+        end if;
+      end if;
+    end if;
+  end process;
   -- Implement write response logic generation
   -- The write response and response valid signals are asserted by the slave 
   -- when axi_wready, S_AXI_WVALID, axi_wready and S_AXI_WVALID are asserted.  
@@ -284,7 +294,15 @@ begin
   -- and the slave is ready to accept the read address.
   slv_reg_rden <= axi_arready and S_AXI_ARVALID and (not axi_rvalid) ;
 
+%%read_process_sensivity
+  variable loc_addr :std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
+  begin
+    -- Address decoding for reading registers
+    loc_addr := axi_araddr(ADDR_LSB + OPT_MEM_ADDR_BITS downto ADDR_LSB);
 %%read_process
+    end case;
+  end process;
+
   -- Output register or memory read data
   process( S_AXI_ACLK ) is
   begin

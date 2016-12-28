@@ -8,7 +8,7 @@ class RegisterDefinition():
         self.ip_core_version = None
         self.ip_core_version_naming = None
         self.documentation = None
-        self.option = {'read': False, 'write': False, 'finished': False}
+        self.option = {'read': False, 'write': False, 'finished': False, 'clear_on_read' : False}
         self.bit_definition = []
 
     def __str__(self):
