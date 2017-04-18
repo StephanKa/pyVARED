@@ -7,7 +7,7 @@ REGEX_SLAVE_REG_DEFINITION = re.compile(r'(?:slv_reg\d+\(\d+\))')
 REGEX_SLAVE_REG_ALIAS_NAME = re.compile(r'(?:(?<=a_)\w+)')
 REGEX_VERSION_NAME = re.compile(r'(\w+)(?:_VERSION)')
 REGEX_VERSION_NUMBER_HEX = re.compile(r'(?<=x\")[^\"]\d+[^\"]')
-REGEX_VERSION_NUMBER_BIN = re.compile(r'(?<=b\")[^\"]\d+[^\"]')
+REGEX_VERSION_NUMBER_BIN = re.compile(r'(?<=b\")[0-1]+')
 REGEX_REGISTER_DEFINITION = re.compile(r'(?<=\()(\d+)[^\b](\w+)[^\b](\d+)|(?<=\()(\d+)')
 
 
