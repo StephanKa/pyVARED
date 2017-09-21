@@ -18,6 +18,7 @@ import registerDefinition
 
 
 class TestRegisterDefinition(unittest.TestCase):
+    """ Testcase for checking RegisterDefinition class"""
 
     def test_instantiation(self):
         ''' will only test the successfull instantiation '''
