@@ -21,7 +21,7 @@ install:
   - pip install xmlrunner coverage pyyaml
 script:
   - cd tests
-  - coverage run --branch--source=../ tests.py
+  - coverage run --branch --source=../ tests.py
   - coverage xml -i
   - cd ..
   - sonar-scanner
