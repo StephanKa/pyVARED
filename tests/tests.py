@@ -45,8 +45,8 @@ class TestGenerateComponentIndex(unittest.TestCase):
         self.assertIsNotNone(parser.ip_core_version_naming)
         self.assertIsNotNone(parser.ip_core_version)
         self.assertIsNotNone(parser.register, {})
-        header = GenerateHTMLMap(parser, 'test.html')
-        header = GenerateComponentIndex([[parser.component_name, parser.ip_core_version, parser.register], ], 'test{0}')
+        GenerateHTMLMap(parser, 'test.html')
+        GenerateComponentIndex([[parser.component_name, parser.ip_core_version, parser.register], ], 'test{0}')
 
 
 class TestGenerateHTMLMap(unittest.TestCase):
@@ -89,7 +89,7 @@ class TestGeneratePythonModule(unittest.TestCase):
         self.assertIsNotNone(parser.ip_core_version_naming)
         self.assertIsNotNone(parser.ip_core_version)
         self.assertIsNotNone(parser.register, {})
-        header = GeneratePythonModule(parser, 'test.py')
+        header = GeneratePythonModule(parser, 'test.pyc')
         self.assertIsNotNone(header.parsed_file)
         self.assertIsNotNone(header.output_file_name)
 
