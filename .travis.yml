@@ -7,6 +7,6 @@ install:
   - pip install xmlrunner coverage pyyaml
 script:
   - cd tests
-  - coverage run tests.py
+  - coverage run --source=../ tests.py
 after_success:
     - coveralls
