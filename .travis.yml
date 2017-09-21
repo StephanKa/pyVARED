@@ -8,7 +8,7 @@ addons:
       - oracle-java8-installer
       - oracle-java8-set-default
   sonarcloud:
-    organization: crafti5
+    organization: crafti5-github
     token:
       secure: ${SONAR_TOKEN}
     branches:
