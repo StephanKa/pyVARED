@@ -37,7 +37,7 @@ class TestRegisterDefinition(unittest.TestCase):
     def test_string_return(self):
         ''' will test the __str__ function '''
         reg_def = registerDefinition.RegisterDefinition()
-        self.assertIsNone(str(reg_def))
+        self.assertIsNotNone(str(reg_def))
 
     def test_add_bit_definition(self):
         ''' will test the __str__ function '''
