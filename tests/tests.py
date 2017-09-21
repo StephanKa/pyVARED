@@ -19,16 +19,16 @@ import vhdlFileParser
 import IpCoreGeneration
 
 
-class TestRegisterDefinition(unittest.TestCase):
+class TestVhdlFileParser(unittest.TestCase):
     """ Testcase for checking RegisterDefinition class"""
 
     def test_instantiation(self):
         ''' file parser test '''
         parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
-        self.assertNotNone(parser.component_name)
-        self.assertNotNone(parser.ip_core_version_naming)
-        self.assertNotNone(parser.ip_core_version)
-        self.assertNotEqual(parser.register, {})
+        self.assertIsNotNone(parser.component_name)
+        self.assertIsNotNone(parser.ip_core_version_naming)
+        self.assertIsNotNone(parser.ip_core_version)
+        self.assertIsNotNone(parser.register, {})
 
 
 class TestRegisterDefinition(unittest.TestCase):
