@@ -22,6 +22,7 @@ install:
 script:
   - cd tests
   - coverage run --source=../ tests.py
+  - coverage xml tests.py
   - cd ..
   - sonar-scanner
 after_success:
