@@ -3,6 +3,15 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/crafti5/pyVARED/badge.svg?branch=master)](https://coveralls.io/github/crafti5/pyVARED?branch=master)
 
+[![Quality Status](https://sonarcloud.io/api/badges/gate?key=pyVARED)](https://sonarcloud.io/api/badges/gate?key=pyVARED)
+
+[![Code Smells](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=code_smells)](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=code_smells)
+
+[![Bugs](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=bugs)](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=bugs)
+
+[![Bugs](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=sqale_debt_ratio)](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=sqale_debt_ratio)
+
+
 [SonarCloud](https://sonarcloud.io/dashboard?id=pyVARED)
 
 This script will generate AXI register definitions from VHDL sources.
