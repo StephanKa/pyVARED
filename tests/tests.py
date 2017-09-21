@@ -15,6 +15,8 @@ import os
 import xmlrunner
 sys.path.append("../")
 import registerDefinition
+import vhdlFileParser
+import IpCoreGeneration
 
 
 class TestRegisterDefinition(unittest.TestCase):
