@@ -1,1 +1,8 @@
 *.pyc
+tests/test.h
+*.html
+tests/test.py
+tests/test.txt
+tests/.coverage
+.idea/codeStyleSettings.xml
+tests/coverage/test-results.xml
