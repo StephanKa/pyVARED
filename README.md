@@ -1,6 +1,6 @@
-# pyVARED - Python VHDL Automatic Register Extract Definition 
-
-This script will generate AXI register definitions from VHDL sources. 
+# pyVARED - Python VHDL Automatic Register Extract Definition
+[![Build Status](https://travis-ci.org/crafti5/pyVARED.svg?branch=master)](https://travis-ci.org/crafti5/pyVARED)
+This script will generate AXI register definitions from VHDL sources.
 The script will through all sub directories and look for the files with ending "S00_AXI.vhd". These files will be parsed for all existing register.
 
 Following there is an example with snippets from VHDL source code, which will recognized correctly (test_v1_0_S00_AXI.vhd is this example).
@@ -42,7 +42,7 @@ architecture arch_imp of test_v1_0_S00_AXI is
   alias a_test_enable_3 : std_logic is slv_reg1(3);
   alias a_test_enable_2 : std_logic is slv_reg1(2);
   alias a_test_enable_1 : std_logic is slv_reg1(1);
-  alias a_test_enable_0 : std_logic is slv_reg1(0);  
+  alias a_test_enable_0 : std_logic is slv_reg1(0);
   alias a_level_register : std_logic_vector(31 downto 0) is slv_reg2(31 downto 0);
   alias a_to_register : std_logic_vector(0 to 31) is slv_reg3(0 to 31);
   alias a_to : std_logic_vector(0 to 10) is slv_reg3(0 to 10);
