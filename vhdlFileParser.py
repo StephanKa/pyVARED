@@ -101,14 +101,12 @@ class FileParseOperation():
                 self.read_process = True
                 self.write_process = False
                 self.process = False
-            if(self.process):
-                if('case loc_addr is' in line):
-                    self.write_process = True
+            if(self.process and 'case loc_addr is' in line):
+                self.write_process = True
             if(self.read_process):
                 boolean_read = self._check_address_and_register_binary(line)
                 if(self.version_check):
-                    if(self.ip_core_version_naming is not None
-                       and self.ip_core_version_naming in line):
+                    if(self.ip_core_version_naming is not None and self.ip_core_version_naming in line):
                         temp_slv_name = 'slv_reg{0}'.format(self.temp_register_name)
                         self.register[temp_slv_name] = RegisterDefinition()
                         self.register[temp_slv_name].component_name = self.component_name

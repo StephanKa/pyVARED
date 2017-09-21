@@ -183,8 +183,8 @@ class YamlDefinition():
     def get_name(self):
         return self.component_name
 
-    def get_date_information(self, FORMAT='%d-%m-%Y'):
-        return self.component_version.strftime(FORMAT)
+    def get_date_information(self, formatting='%d-%m-%Y'):
+        return self.component_version.strftime(formatting)
 
     def __read_input(self):
         return yaml.load(open(self.path, 'rb'))

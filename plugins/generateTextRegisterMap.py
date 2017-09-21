@@ -15,7 +15,6 @@ class GenerateTextRegisterMap(TemplateGeneration):
         return_string = ''
         keylist = self.parsed_file.register.keys()
         keylist.sort()
-        property_comment = '\t# this will add the property name to the class\n'
         for temp_reg in keylist:
             add_property = ''
             return_string += self.GENERAL_REGISTER_DEFINITION.format(self._extract_variable_name(temp_reg),
