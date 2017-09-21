@@ -17,6 +17,70 @@ sys.path.append("../")
 import registerDefinition
 import vhdlFileParser
 import IpCoreGeneration
+from plugins.generateTextRegisterMap import *
+from plugins.generateHtmlRegisterMap import *
+from plugins.generatePythonRegisterMap import *
+from plugins.generateCRegisterMap import *
+
+
+class TestGenerateHTMLMap(unittest.TestCase):
+    """ Testcase for checking RegisterDefinition class"""
+
+    def test_c_header_generation(self):
+        ''' file parser test '''
+        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        self.assertIsNotNone(parser.component_name)
+        self.assertIsNotNone(parser.ip_core_version_naming)
+        self.assertIsNotNone(parser.ip_core_version)
+        self.assertIsNotNone(parser.register, {})
+        header = GenerateHTMLMap(parser, 'test.html')
+        self.assertIsNotNone(header.parsed_file)
+        self.assertIsNotNone(header.output_file_name)
+
+
+class TestGenerateTextRegisterMap(unittest.TestCase):
+    """ Testcase for checking RegisterDefinition class"""
+
+    def test_c_header_generation(self):
+        ''' file parser test '''
+        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        self.assertIsNotNone(parser.component_name)
+        self.assertIsNotNone(parser.ip_core_version_naming)
+        self.assertIsNotNone(parser.ip_core_version)
+        self.assertIsNotNone(parser.register, {})
+        header = GenerateTextRegisterMap(parser, 'test.txt')
+        self.assertIsNotNone(header.parsed_file)
+        self.assertIsNotNone(header.output_file_name)
+
+
+class TestGeneratePythonModule(unittest.TestCase):
+    """ Testcase for checking RegisterDefinition class"""
+
+    def test_c_header_generation(self):
+        ''' file parser test '''
+        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        self.assertIsNotNone(parser.component_name)
+        self.assertIsNotNone(parser.ip_core_version_naming)
+        self.assertIsNotNone(parser.ip_core_version)
+        self.assertIsNotNone(parser.register, {})
+        header = GeneratePythonModule(parser, 'test.py')
+        self.assertIsNotNone(header.parsed_file)
+        self.assertIsNotNone(header.output_file_name)
+
+
+class TestGenerateCHeader(unittest.TestCase):
+    """ Testcase for checking RegisterDefinition class"""
+
+    def test_c_header_generation(self):
+        ''' file parser test '''
+        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        self.assertIsNotNone(parser.component_name)
+        self.assertIsNotNone(parser.ip_core_version_naming)
+        self.assertIsNotNone(parser.ip_core_version)
+        self.assertIsNotNone(parser.register, {})
+        header = GenerateCHeader(parser, 'test.h')
+        self.assertIsNotNone(header.parsed_file)
+        self.assertIsNotNone(header.output_file_name)
 
 
 class TestVhdlFileParser(unittest.TestCase):
