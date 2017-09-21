@@ -1,16 +1,5 @@
 sudo: required
 language: python
-python:
-  - 2.7
-before_install:
-  - pip install coveralls
-install:
-  - pip install xmlrunner coverage pyyaml
-script:
-  - cd tests
-  - coverage run --source=../ tests.py
-after_success:
-    - coveralls
 addons:
   apt:
     packages:
@@ -24,3 +13,16 @@ addons:
       secure: ${SONAR_TOKEN}
     branches:
       - master
+python:
+  - 2.7
+before_install:
+  - pip install coveralls
+install:
+  - pip install xmlrunner coverage pyyaml
+script:
+  - cd tests
+  - coverage run --source=../ tests.py
+  - cd ..
+  - sonar-scanner
+after_success:
+    - coveralls
