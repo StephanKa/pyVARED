@@ -1,3 +1,4 @@
+sudo: required
 language: python
 python:
   - 2.7
@@ -10,3 +11,16 @@ script:
   - coverage run --source=../ tests.py
 after_success:
     - coveralls
+addons:
+  apt:
+    packages:
+      - unzip
+      # Java8 Required for Sonar and SQLCL
+      - oracle-java8-installer
+      - oracle-java8-set-default
+  sonarcloud:
+    organization: crafti5
+    token:
+      secure: ${SONAR_TOKEN}
+    branches:
+      - master
