@@ -44,6 +44,7 @@ class TestRegisterDefinition(unittest.TestCase):
         reg_def = registerDefinition.RegisterDefinition()
         reg_def._add_bit_definition('test', 0)
         self.assertEqual(reg_def.bit_definition, [['test', 0]])
+        reg_def._add_bit_definition('test')
 
 
 if(sys.version_info < (3, 0)and __name__ == '__main__'):
