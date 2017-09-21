@@ -27,7 +27,7 @@ class FileParseOperation():
 
     def _extract_component_name(self):
         # to separate the component we need the "/" and also the "_v"
-        return self.file_path[self.file_path.rfind('/')+1:self.file_path.rfind('_v')].upper()
+        return self.file_path[self.file_path.rfind('/') + 1:self.file_path.rfind('_v')].upper()
 
     def _extract_bit_definition(self, line):
         if('signal slv_reg' in line and 'signal slv_reg_' not in line):
@@ -36,7 +36,7 @@ class FileParseOperation():
             self.register[slave_name] = RegisterDefinition()
             self.register[slave_name].component_name = self.component_name
             self.register[slave_name].orginal_slave_name = slave_name
-            self.register[slave_name].binary_coded = bin(int(slave_name[slave_name.find('g')+1:]))
+            self.register[slave_name].binary_coded = bin(int(slave_name[slave_name.find('g') + 1:]))
         elif('alias' in line and 'slv_reg' in line):
             ############## extract big definition here ##############
             temp_reg_name = REGEX_SLAVE_REG_NAME.search(line).group()
@@ -46,15 +46,15 @@ class FileParseOperation():
             try:
                 if('downto' in bit_depth):
                     bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
-                    if((bit_depth[0]-bit_depth[1]) == REGISTER_SIZE-1):
+                    if((bit_depth[0] - bit_depth[1]) == REGISTER_SIZE - 1):
                         self._extract_status_control(bit_depth, alias_name, temp_reg_name)
-                    elif((bit_depth[0]-bit_depth[1]) < REGISTER_SIZE-1):
+                    elif((bit_depth[0] - bit_depth[1]) < REGISTER_SIZE - 1):
                         self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
                 elif('to' in bit_depth):
                     bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
-                    if((bit_depth[1]-bit_depth[0]) == REGISTER_SIZE-1):
+                    if((bit_depth[1] - bit_depth[0]) == REGISTER_SIZE - 1):
                         self._extract_status_control(bit_depth, alias_name, temp_reg_name)
-                    elif((bit_depth[1]-bit_depth[0]) < REGISTER_SIZE-1):
+                    elif((bit_depth[1] - bit_depth[0]) < REGISTER_SIZE - 1):
                         self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
                 else:
                     self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth[-1], ])

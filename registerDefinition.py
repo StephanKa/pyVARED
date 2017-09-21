@@ -24,7 +24,7 @@ class RegisterDefinition():
                                           self.ip_core_version,
                                           self.option)
 
-    def _add_bit_definition(self, name, value):
+    def _add_bit_definition(self, name=None, value=None):
         if(name is not None and value is not None):
             self.bit_definition.append([name, value])
         else:
