@@ -73,6 +73,7 @@ class GenerateHTMLMap(TemplateGeneration):
                                                                                                                                                    self.parsed_file.component_name,
                                                                                                                                                    self._extract_date_information(self.parsed_file.ip_core_version),
                                                                                                                                                    out_string))
+        self.output_file.close()
 
 
 class GenerateComponentIndex(GenerateHTMLMap):

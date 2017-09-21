@@ -23,6 +23,20 @@ from plugins.generatePythonRegisterMap import *
 from plugins.generateCRegisterMap import *
 
 
+class TestGenerateComponentIndex(unittest.TestCase):
+    """ Testcase for checking RegisterDefinition class"""
+
+    def test_c_header_generation(self):
+        ''' file parser test '''
+        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        self.assertIsNotNone(parser.component_name)
+        self.assertIsNotNone(parser.ip_core_version_naming)
+        self.assertIsNotNone(parser.ip_core_version)
+        self.assertIsNotNone(parser.register, {})
+        header = GenerateHTMLMap(parser, 'test.html')
+        header = GenerateComponentIndex([[parser.component_name, parser.ip_core_version, parser.register], ], 'test{0}')
+
+
 class TestGenerateHTMLMap(unittest.TestCase):
     """ Testcase for checking RegisterDefinition class"""
 
