@@ -34,6 +34,17 @@ class TestRegisterDefinition(unittest.TestCase):
         self.assertEqual(reg_def.documentation, None)
         self.assertEqual(reg_def.bit_definition, [])
 
+    def test_string_return(self):
+        ''' will test the __str__ function '''
+        reg_def = registerDefinition.RegisterDefinition()
+        self.assertIsNone(str(reg_def))
+
+    def test_add_bit_definition(self):
+        ''' will test the __str__ function '''
+        reg_def = registerDefinition.RegisterDefinition()
+        reg_def._add_bit_definition('test', 0)
+        self.assertEqual(reg_def.bit_definition, [['test', 0]])
+
 
 if(sys.version_info < (3, 0)and __name__ == '__main__'):
     # Note:
@@ -46,9 +57,9 @@ if(sys.version_info < (3, 0)and __name__ == '__main__'):
             os.mkdir('coverage')
         with open('coverage/test-results.xml', 'wb') as output:
             unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output),
-                            # these make sure that some options that are not applicable
-                            # remain hidden from the help menu.
-                            failfast=False, buffer=False, catchbreak=False)
+                          # these make sure that some options that are not applicable
+                          # remain hidden from the help menu.
+                          failfast=False, buffer=False, catchbreak=False)
     else:
         while(len(sys.argv) > 1):
             TMP_ARGUMENT = sys.argv.pop(1)
