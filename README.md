@@ -1,4 +1,5 @@
 # pyVARED - Python VHDL Automatic Register Extract Definition
+
 [![Build Status](https://travis-ci.org/crafti5/pyVARED.svg?branch=master)](https://travis-ci.org/crafti5/pyVARED)
 
 [![Coverage Status](https://coveralls.io/repos/github/crafti5/pyVARED/badge.svg?branch=master)](https://coveralls.io/github/crafti5/pyVARED?branch=master)
@@ -13,6 +14,19 @@
 
 
 [SonarCloud](https://sonarcloud.io/dashboard?id=pyVARED)
+
+## Python Support
+
+2.7
+3.3
+3.4
+3.5
+3.6
+3.6-dev
+3.7-dev
+nightly
+
+## General
 
 This script will generate AXI register definitions from VHDL sources.
 The script will through all sub directories and look for the files with ending "S00_AXI.vhd". These files will be parsed for all existing register.
