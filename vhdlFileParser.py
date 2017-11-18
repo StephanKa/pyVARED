@@ -30,24 +30,25 @@ class FileParseOperation():
         return self.file_path[self.file_path.rfind('/') + 1:self.file_path.rfind('_v')].upper()
 
     def _extract_bit_definition(self, line):
-        if('signal slv_reg' in line and 'signal slv_reg_' not in line):
-            ############## extract the slave register name and get rid of unnecessary symbols ##############
-            slave_name = REGEX_SLAVE_REG_NAME.search(line).group()
-            self.register[slave_name] = RegisterDefinition()
-            self.register[slave_name].component_name = self.component_name
-            self.register[slave_name].orginal_slave_name = slave_name
-            self.register[slave_name].binary_coded = bin(int(slave_name[slave_name.find('g') + 1:]))
-        elif('alias' in line and 'slv_reg' in line):
-            ############## extract big definition here ##############
-            temp_reg_name = REGEX_SLAVE_REG_NAME.search(line).group()
-            alias_name = REGEX_SLAVE_REG_ALIAS_NAME.search(line).group()
-            definition = REGEX_REGISTER_DEFINITION.findall(line)
-            bit_depth = definition[0]
-            try:
-                self._get_alias_bit_definition(bit_depth, alias_name, temp_reg_name)
-            except BaseException as e:
-                print(alias_name)
-                print('Cannot convert bit_depth "{0}" type: "{1}"\n{2}'.format(bit_depth, type(bit_depth), str(e)))
+        if(self.variable_definition):
+            if('signal slv_reg' in line and 'signal slv_reg_' not in line):
+                ############## extract the slave register name and get rid of unnecessary symbols ##############
+                slave_name = REGEX_SLAVE_REG_NAME.search(line).group()
+                self.register[slave_name] = RegisterDefinition()
+                self.register[slave_name].component_name = self.component_name
+                self.register[slave_name].orginal_slave_name = slave_name
+                self.register[slave_name].binary_coded = bin(int(slave_name[slave_name.find('g') + 1:]))
+            elif('alias' in line and 'slv_reg' in line):
+                ############## extract big definition here ##############
+                temp_reg_name = REGEX_SLAVE_REG_NAME.search(line).group()
+                alias_name = REGEX_SLAVE_REG_ALIAS_NAME.search(line).group()
+                definition = REGEX_REGISTER_DEFINITION.findall(line)
+                bit_depth = definition[0]
+                try:
+                    self._get_alias_bit_definition(bit_depth, alias_name, temp_reg_name)
+                except BaseException as e:
+                    print(alias_name)
+                    print('Cannot convert bit_depth "{0}" type: "{1}"\n{2}'.format(bit_depth, type(bit_depth), str(e)))
 
     def _get_alias_bit_definition(self, bit_depth, alias_name, temp_reg_name):
         if('downto' in bit_depth):
@@ -82,19 +83,24 @@ class FileParseOperation():
                     return (temp_reg, True)
             return (None, False, int(REGEX_VERSION_NUMBER_BIN.search(line).group(), 2))
 
+    def _extract_version_information(self, line):
+        if('constant' in line and '_VERSION' in line):
+            # we need the name for further mapping of the slv reg and also the version definition
+            self.ip_core_version_naming = REGEX_VERSION_NAME.search(line).group()
+            self.ip_core_version = REGEX_VERSION_NUMBER_HEX.search(line).group()
+
+    def _setup_register(self, line):
+        if('architecture' in line):
+            self.variable_definition = True
+
     def _parse_file_for_slave_register(self):
         self.version_check = False
         self.temp_register_name = None
         for line in open(self.file_path, 'rb').readlines():
             ############## extract variable definition here ##############
-            if('architecture' in line):
-                self.variable_definition = True
-            if(self.variable_definition):
-                self._extract_bit_definition(line)
-            if('constant' in line and '_VERSION' in line):
-                # we need the name for further mapping of the slv reg and also the version definition
-                self.ip_core_version_naming = REGEX_VERSION_NAME.search(line).group()
-                self.ip_core_version = REGEX_VERSION_NUMBER_HEX.search(line).group()
+            self._setup_register(line)
+            self._extract_bit_definition(line)
+            self._extract_version_information(line)
             ############## read and write access must be defined ##############
             if('begin' in line):
                 self.variable_definition = False
