@@ -13,7 +13,7 @@ import unittest
 import sys
 import os
 import xmlrunner
-sys.path.append("../")
+sys.path.append(os.getcwd() + r"\..\")
 import registerDefinition
 import vhdlFileParser
 import IpCoreGeneration
