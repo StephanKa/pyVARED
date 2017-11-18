@@ -106,29 +106,10 @@ class FileParseOperation():
                 self.process = False
             if(self.process and 'case loc_addr is' in line):
                 self.write_process = True
-            if(self.read_process):
-                boolean_read = self._check_address_and_register_binary(line)
-                if(self.version_check):
-                    if(self.ip_core_version_naming is not None and self.ip_core_version_naming in line):
-                        temp_slv_name = 'slv_reg{0}'.format(self.temp_register_name)
-                        self.register[temp_slv_name] = RegisterDefinition()
-                        self.register[temp_slv_name].component_name = self.component_name
-                        self.register[temp_slv_name].orginal_slave_name = self.ip_core_version_naming
-                        self.register[temp_slv_name].binary_coded = bin(self.temp_register_name)
-                    self.version_check = False
-                if(boolean_read is None):
-                    continue
-                elif(len(boolean_read) > 2):
-                    self.version_check = True
-                    self.temp_register_name = boolean_read[2]
-                elif(boolean_read[1]):
-                    self.register[boolean_read[0]].option['read'] = True
-            if(self.write_process):
-                boolean_write = self._check_address_and_register_binary(line)
-                if(boolean_write is None):
-                    continue
-                elif(boolean_write[1]):
-                    self.register[boolean_write[0]].option['write'] = True
+            if(not self._check_read_process(line)):
+                continue
+            if(not self._check_write_process(line)):
+                continue
             if('end process' in line):
                 self.process = False
                 self.read_process = False
@@ -137,3 +118,35 @@ class FileParseOperation():
         ############## set the attributes of the enumeration ##############
         for temp_register_map in self.register.keys():
             self.register[temp_register_map].ip_core_version = self.ip_core_version
+
+    def _check_version(self, line):
+        if(self.version_check):
+            if(self.ip_core_version_naming is not None and self.ip_core_version_naming in line):
+                temp_slv_name = 'slv_reg{0}'.format(self.temp_register_name)
+                self.register[temp_slv_name] = RegisterDefinition()
+                self.register[temp_slv_name].component_name = self.component_name
+                self.register[temp_slv_name].orginal_slave_name = self.ip_core_version_naming
+                self.register[temp_slv_name].binary_coded = bin(self.temp_register_name)
+            self.version_check = False
+
+    def _check_write_process(self, line):
+        if(self.write_process):
+            boolean_write = self._check_address_and_register_binary(line)
+            if(boolean_write is None):
+                return False
+            elif(boolean_write[1]):
+                self.register[boolean_write[0]].option['write'] = True
+        return True
+
+    def _check_read_process(self, line):
+        if(self.read_process):
+            boolean_read = self._check_address_and_register_binary(line)
+            self._check_version(line)
+            if(boolean_read is None):
+                return None
+            elif(len(boolean_read) > 2):
+                self.version_check = True
+                self.temp_register_name = boolean_read[2]
+            elif(boolean_read[1]):
+                self.register[boolean_read[0]].option['read'] = True
+        return True
