@@ -13,7 +13,7 @@ import unittest
 import sys
 import os
 import xmlrunner
-sys.path.append(os.getcwd() + r"/../")
+sys.path.extend(["../", "../plugins/"])
 import registerDefinition
 import vhdlFileParser
 import IpCoreGeneration
