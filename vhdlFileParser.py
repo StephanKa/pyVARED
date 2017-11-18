@@ -44,25 +44,28 @@ class FileParseOperation():
             definition = REGEX_REGISTER_DEFINITION.findall(line)
             bit_depth = definition[0]
             try:
-                if('downto' in bit_depth):
-                    bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
-                    if((bit_depth[0] - bit_depth[1]) == REGISTER_SIZE - 1):
-                        self._extract_status_control(bit_depth, alias_name, temp_reg_name)
-                    elif((bit_depth[0] - bit_depth[1]) < REGISTER_SIZE - 1):
-                        self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
-                elif('to' in bit_depth):
-                    bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
-                    if((bit_depth[1] - bit_depth[0]) == REGISTER_SIZE - 1):
-                        self._extract_status_control(bit_depth, alias_name, temp_reg_name)
-                    elif((bit_depth[1] - bit_depth[0]) < REGISTER_SIZE - 1):
-                        self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
-                else:
-                    self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth[-1], ])
-            except Exception as e:
+                self._get_alias_bit_definition(bit_depth, alias_name, temp_reg_name)
+            except BaseException as e:
                 print(alias_name)
                 print('Cannot convert bit_depth "{0}" type: "{1}"\n{2}'.format(bit_depth, type(bit_depth), str(e)))
 
-    def _extract_status_control(self, bit_depth, alias_name, temp_reg_name):
+    def _get_alias_bit_definition(self, bit_depth, alias_name, temp_reg_name):
+        if('downto' in bit_depth):
+            bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
+            if((bit_depth[0] - bit_depth[1]) == REGISTER_SIZE - 1):
+                self._extract_status_control(alias_name, temp_reg_name)
+            elif((bit_depth[0] - bit_depth[1]) < REGISTER_SIZE - 1):
+                self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
+        elif('to' in bit_depth):
+            bit_depth = [int(bit_depth[0]), int(bit_depth[2])]
+            if((bit_depth[1] - bit_depth[0]) == REGISTER_SIZE - 1):
+                self._extract_status_control(alias_name, temp_reg_name)
+            elif((bit_depth[1] - bit_depth[0]) < REGISTER_SIZE - 1):
+                self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth, ])
+        else:
+            self.register[temp_reg_name]._add_bit_definition(alias_name, [bit_depth[-1], ])
+
+    def _extract_status_control(self, alias_name, temp_reg_name):
         self.register[temp_reg_name].variable_name = alias_name.upper()
         if('control' in alias_name):
             self.register[temp_reg_name].option['write'] = True
