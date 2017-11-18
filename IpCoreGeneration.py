@@ -31,22 +31,22 @@ class VhdlWriter():
         self.format_string()
 
     def __load_template_file(self, path):
-        return open(path, 'rb').read()
+        return open(path, 'r').read()
 
     def __indentation(self, times=1):
         return times * '  '
 
     def write_file(self, **kwargs):
-        with open(self.output_name, 'wb') as file:
+        with open(self.output_name, 'w') as output_file:
             s = VhdlTemplate(self.template)
-            file.write(s.substitute(component_name=kwargs['component_name'],
-                                    width=kwargs['width'],
-                                    slave_reg_definition=kwargs['slave_reg_definition'],
-                                    component_version=kwargs['component_version'],
-                                    alias_definitions=kwargs['alias_definitions'],
-                                    write_process=kwargs['write_process'],
-                                    read_process_sensivity=kwargs['read_process_sensivity'],
-                                    read_process=kwargs['read_process']))
+            output_file.write(s.substitute(component_name=kwargs['component_name'],
+                                           width=kwargs['width'],
+                                           slave_reg_definition=kwargs['slave_reg_definition'],
+                                           component_version=kwargs['component_version'],
+                                           alias_definitions=kwargs['alias_definitions'],
+                                           write_process=kwargs['write_process'],
+                                           read_process_sensivity=kwargs['read_process_sensivity'],
+                                           read_process=kwargs['read_process']))
 
     def format_string(self):
         reset = ''
@@ -116,9 +116,9 @@ class VhdlWriter():
             else:
                 name = 'slv_reg_{0}'.format(register[register.find('_') + 1:])
             return self.READ_DEFINITION.format(int(register[register.find('_') + 1:]),
-                                                len(self.yaml_object.register_definitions.keys()),
-                                                name,
-                                                self.__format_clear_on_read(temp_register, name))
+                                               len(self.yaml_object.register_definitions.keys()),
+                                               name,
+                                               self.__format_clear_on_read(temp_register, name))
         else:
             return ''
 
@@ -126,8 +126,8 @@ class VhdlWriter():
         temp_register = self.yaml_object.register_definitions[register]
         if(temp_register['Option']['write']):
             return self.WRITE_DEFINITION.format(int(register[register.find('_') + 1:]),
-                                                 len(self.yaml_object.register_definitions.keys()),
-                                                 register[register.find('_') + 1:])
+                                                len(self.yaml_object.register_definitions.keys()),
+                                                register[register.find('_') + 1:])
         else:
             return ''
 
@@ -187,7 +187,7 @@ class YamlDefinition():
         return self.component_version.strftime(formatting)
 
     def __read_input(self):
-        return yaml.load(open(self.path, 'rb'))
+        return yaml.load(open(self.path, 'r'))
 
 
 if __name__ == '__main__':

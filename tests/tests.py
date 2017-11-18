@@ -149,7 +149,7 @@ class TestRegisterDefinition(unittest.TestCase):
         reg_def._add_bit_definition('test')
 
 
-if(sys.version_info < (3, 0)and __name__ == '__main__'):
+if(__name__ == '__main__'):
     # Note:
     # The loader that sorts the test by their order of definition doesn't
     # work on Python 3.
@@ -158,7 +158,7 @@ if(sys.version_info < (3, 0)and __name__ == '__main__'):
     if(len(sys.argv)) < 2:
         if(not os.path.exists('coverage')):
             os.mkdir('coverage')
-        with open('coverage/test-results.xml', 'wb') as output:
+        with open('coverage/test-results.xml', 'w') as output:
             unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output),
                           # these make sure that some options that are not applicable
                           # remain hidden from the help menu.

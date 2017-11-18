@@ -56,8 +56,7 @@ class GenerateHTMLMap(TemplateGeneration):
     def _extract_register_information(self):
         ''' extraction of the slave register and all including bits '''
         return_string = ''
-        keylist = self.parsed_file.register.keys()
-        keylist.sort()
+        keylist = sorted(self.parsed_file.register)
         for temp_reg in keylist:
             return_string += self.GENERAL_REGISTER_DEFINITION.format(self._extract_variable_name(temp_reg),
                                                                      self._calculate_register_offset(self.parsed_file.register[temp_reg].binary_coded[2:]),
@@ -100,7 +99,7 @@ class GenerateComponentIndex(GenerateHTMLMap):
     def _extract_offsets_names(self, register):
         ''' extract the register offset for all register found in file'''
         offset_dict = dict()
-        for temp_reg in register.keys():
+        for temp_reg in register:
             offset_dict[int(self._calculate_register_offset(register[temp_reg].binary_coded[2:]), 16)] = self._extract_variable_name(register[temp_reg])
         return offset_dict
 
@@ -108,8 +107,7 @@ class GenerateComponentIndex(GenerateHTMLMap):
         ''' extraction of the slave register '''
         return_string = ''
         offset_list = self._extract_offsets_names(register)
-        keylist = offset_list.keys()
-        keylist.sort()
+        keylist = sorted(offset_list)
         for temp_reg in keylist:
             return_string += '<li style="margin-left:50px;font-family: Arial, Helvetica, sans-serif;font-size:12px"><a href="#{0}">{1} - {0}</a></li>'.format(offset_list[temp_reg], hex(temp_reg))
         return return_string

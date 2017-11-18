@@ -15,8 +15,7 @@ class GeneratePythonModule(TemplateGeneration):
     def _extract_register_information(self):
         ''' extraction of the slave register and all including bits '''
         return_string = ''
-        keylist = self.parsed_file.register.keys()
-        keylist.sort()
+        keylist = sorted(self.parsed_file.register)
         property_comment = self.SPACING + '# this will add the property name to the class\n'
         for temp_reg in keylist:
             add_property = '{0}{2}for i, j in {1}_MASK._values:\n\t\tsetattr({1}, i, {1}(j))'.format(property_comment, self._extract_variable_name(temp_reg), self.SPACING)

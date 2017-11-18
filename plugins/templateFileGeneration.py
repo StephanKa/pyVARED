@@ -45,7 +45,7 @@ class TemplateGeneration():
         for name, value in key_value_pair:
             if(len(value[0]) > 1 and isinstance(value[0], list)):
                 bit_value_list = [int(i) for i in value[0]]
-                bit_list = range(min(bit_value_list), max(bit_value_list)+1)
+                bit_list = range(min(bit_value_list), max(bit_value_list) + 1)
                 shift_value += '|'.join('1<<{0} '.format(n) for n in bit_list)
             else:
                 shift_value = '1<<' + str(value[0])

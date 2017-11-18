@@ -14,8 +14,7 @@ class GenerateCHeader(TemplateGeneration):
     def _extract_register_information(self):
         ''' extraction of the slave register and all including bits '''
         return_string = ''
-        keylist = self.parsed_file.register.keys()
-        keylist.sort()
+        keylist = sorted(self.parsed_file.register)
         for temp_reg in keylist:
             return_string += self.GENERAL_REGISTER_DEFINITION.format(self._extract_variable_name(temp_reg),
                                                                      self._calculate_register_offset(self.parsed_file.register[temp_reg].binary_coded[2:]),

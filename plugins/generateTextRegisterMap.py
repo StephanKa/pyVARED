@@ -13,8 +13,7 @@ class GenerateTextRegisterMap(TemplateGeneration):
     def _extract_register_information(self):
         ''' extraction of the slave register and all including bits '''
         return_string = ''
-        keylist = self.parsed_file.register.keys()
-        keylist.sort()
+        keylist = sorted(self.parsed_file.register)
         for temp_reg in keylist:
             add_property = ''
             return_string += self.GENERAL_REGISTER_DEFINITION.format(self._extract_variable_name(temp_reg),

@@ -111,7 +111,7 @@ class FileParseOperation():
     def _parse_file_for_slave_register(self):
         self.version_check = False
         self.temp_register_name = None
-        for line in open(self.file_path, 'rb').readlines():
+        for line in open(self.file_path, 'r').readlines():
             ############## extract variable definition here ##############
             self._setup_register(line)
             self._extract_bit_definition(line)
