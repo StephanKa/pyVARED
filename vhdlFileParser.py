@@ -93,6 +93,21 @@ class FileParseOperation():
         if('architecture' in line):
             self.variable_definition = True
 
+    def _check_end_process(self, line):
+        if('end process' in line):
+            self.process = False
+            self.read_process = False
+            self.write_process = False
+            self.version_check = False
+
+    def _setup_boolean(self, line):
+        if('process(S_AXI_ACLK)' in line.replace(' ', '')):
+            self.process = True
+        elif('process' in line and 'slv_reg_rden' in line and 'S_AXI_ARESETN' in line):
+            self.read_process = True
+            self.write_process = False
+            self.process = False
+
     def _parse_file_for_slave_register(self):
         self.version_check = False
         self.temp_register_name = None
@@ -104,23 +119,14 @@ class FileParseOperation():
             ############## read and write access must be defined ##############
             if('begin' in line):
                 self.variable_definition = False
-            if('process(S_AXI_ACLK)' in line.replace(' ', '')):
-                self.process = True
-            elif('process' in line and 'slv_reg_rden' in line and 'S_AXI_ARESETN' in line):
-                self.read_process = True
-                self.write_process = False
-                self.process = False
+            self._setup_boolean(line)
             if(self.process and 'case loc_addr is' in line):
                 self.write_process = True
             if(not self._check_read_process(line)):
                 continue
             if(not self._check_write_process(line)):
                 continue
-            if('end process' in line):
-                self.process = False
-                self.read_process = False
-                self.write_process = False
-                self.version_check = False
+            self._check_end_process(line)
         ############## set the attributes of the enumeration ##############
         for temp_register_map in self.register.keys():
             self.register[temp_register_map].ip_core_version = self.ip_core_version
