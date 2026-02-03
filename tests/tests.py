@@ -19,7 +19,10 @@ sys.path.extend(["../", "../plugins/"])
 import IpCoreGeneration
 from plugins.generateCRegisterMap import GenerateCHeader
 from plugins.generateHtmlRegisterMap import GenerateComponentIndex, GenerateHTMLMap
+from plugins.generateJSONRegisterMap import GenerateJSONRegisterMap
+from plugins.generateMarkdownRegisterMap import GenerateMarkdownRegisterMap
 from plugins.generatePythonRegisterMap import GeneratePythonModule
+from plugins.generateRustRegisterMap import GenerateRustRegisterMap
 from plugins.generateTextRegisterMap import GenerateTextRegisterMap
 from registerDefinition import RegisterDefinition
 from vhdlFileParser import FileParseOperation
@@ -117,7 +120,7 @@ class TestGeneratePythonModule(unittest.TestCase):
 
 
 class TestGenerateCHeader(unittest.TestCase):
-    """Testcase for checking RegisterDefinition class"""
+    """Testcase for checking C Header generation"""
 
     def test_header_generation(self):
         """file header_generation test"""
@@ -129,6 +132,42 @@ class TestGenerateCHeader(unittest.TestCase):
         header = GenerateCHeader(parser, "test.h")
         self.assertIsNotNone(header.parsed_file)
         self.assertIsNotNone(header.output_file_name)
+
+
+class TestGenerateMarkdownRegisterMap(unittest.TestCase):
+    """Testcase for checking Markdown generation"""
+
+    def test_markdown_generation(self):
+        """file markdown generation test"""
+        parser = FileParseOperation(os.getcwd() + "/../ip_repo/test_v1_0_S00_AXI.vhd")
+        self.assertIsNotNone(parser.component_name)
+        markdown = GenerateMarkdownRegisterMap(parser, "test.md")
+        self.assertIsNotNone(markdown.parsed_file)
+        self.assertIsNotNone(markdown.output_file_name)
+
+
+class TestGenerateJSONRegisterMap(unittest.TestCase):
+    """Testcase for checking JSON generation"""
+
+    def test_json_generation(self):
+        """file JSON generation test"""
+        parser = FileParseOperation(os.getcwd() + "/../ip_repo/test_v1_0_S00_AXI.vhd")
+        self.assertIsNotNone(parser.component_name)
+        json_gen = GenerateJSONRegisterMap(parser, "test.json")
+        self.assertIsNotNone(json_gen.parsed_file)
+        self.assertIsNotNone(json_gen.output_file_name)
+
+
+class TestGenerateRustRegisterMap(unittest.TestCase):
+    """Testcase for checking Rust generation"""
+
+    def test_rust_generation(self):
+        """file Rust generation test"""
+        parser = FileParseOperation(os.getcwd() + "/../ip_repo/test_v1_0_S00_AXI.vhd")
+        self.assertIsNotNone(parser.component_name)
+        rust_gen = GenerateRustRegisterMap(parser, "test.rs")
+        self.assertIsNotNone(rust_gen.parsed_file)
+        self.assertIsNotNone(rust_gen.output_file_name)
 
 
 class TestVhdlFileParser(unittest.TestCase):
@@ -152,7 +191,7 @@ class TestVhdlFileParser(unittest.TestCase):
         parser = FileParseOperation(os.getcwd() + "/../ip_repo/test_v1_0_S00_AXI.vhd")
         self.assertGreater(len(parser.register), 0)
         # Check that at least one register has proper attributes
-        for reg_name, reg in parser.register.items():
+        for _reg_name, reg in parser.register.items():
             self.assertIsNotNone(reg.component_name)
             self.assertIsNotNone(reg.orginal_slave_name)
             self.assertIsNotNone(reg.binary_coded)

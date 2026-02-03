@@ -6,9 +6,12 @@ import os
 import time
 
 from plugins.generateCRegisterMap import GenerateCHeader
-from plugins.generateHtmlRegisterMap import GenerateHTMLMap
+from plugins.generateHtmlRegisterMap import GenerateComponentIndex, GenerateHTMLMap
+from plugins.generateJSONRegisterMap import GenerateJSONRegisterMap
+from plugins.generateMarkdownRegisterMap import GenerateMarkdownRegisterMap
 from plugins.generatePythonRegisterMap import GeneratePythonModule
-from plugins.generateTextRegisterMap import GenerateComponentIndex, GenerateTextRegisterMap
+from plugins.generateRustRegisterMap import GenerateRustRegisterMap
+from plugins.generateTextRegisterMap import GenerateTextRegisterMap
 from vhdlFileParser import FileParseOperation
 
 if __name__ == "__main__":
@@ -18,7 +21,15 @@ if __name__ == "__main__":
     SEARCH_FILE_ENDING = "S00_AXI.vhd"
     component_name = []
     # defines for the output files
-    callable_classes = [GenerateCHeader, GeneratePythonModule, GenerateTextRegisterMap, GenerateHTMLMap]
+    callable_classes = [
+        GenerateCHeader,
+        GeneratePythonModule,
+        GenerateTextRegisterMap,
+        GenerateHTMLMap,
+        GenerateMarkdownRegisterMap,
+        GenerateJSONRegisterMap,
+        GenerateRustRegisterMap,
+    ]
     file_endings = [n.FILE_ENDING for n in callable_classes]
     # get all files in path
     list_all_files = os.walk(PATH)

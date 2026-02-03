@@ -1,5 +1,8 @@
 *.pyc
 tests/test.h
+tests/test.md
+tests/test.json
+tests/test.rs
 *.html
 tests/test.py
 tests/test.txt
