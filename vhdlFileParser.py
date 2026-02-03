@@ -127,22 +127,23 @@ class FileParseOperation:
     def _parse_file_for_slave_register(self):
         self.version_check = False
         self.temp_register_name = None
-        for line in open(self.file_path).readlines():
-            ############## extract variable definition here ##############
-            self._setup_register(line)
-            self._extract_bit_definition(line)
-            self._extract_version_information(line)
-            ############## read and write access must be defined ##############
-            if "begin" in line:
-                self.variable_definition = False
-            self._setup_boolean(line)
-            if self.process and "case loc_addr is" in line:
-                self.write_process = True
-            if not self._check_read_process(line):
-                continue
-            if not self._check_write_process(line):
-                continue
-            self._check_end_process(line)
+        with open(self.file_path) as file:
+            for line in file.readlines():
+                ############## extract variable definition here ##############
+                self._setup_register(line)
+                self._extract_bit_definition(line)
+                self._extract_version_information(line)
+                ############## read and write access must be defined ##############
+                if "begin" in line:
+                    self.variable_definition = False
+                self._setup_boolean(line)
+                if self.process and "case loc_addr is" in line:
+                    self.write_process = True
+                if not self._check_read_process(line):
+                    continue
+                if not self._check_write_process(line):
+                    continue
+                self._check_end_process(line)
         ############## set the attributes of the enumeration ##############
         for temp_register_map in self.register.keys():
             self.register[temp_register_map].ip_core_version = self.ip_core_version
