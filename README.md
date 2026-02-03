@@ -64,7 +64,7 @@ pyVARED generates register maps in multiple formats:
 
 ## VHDL Register Definition Format
 
-Following there is an example with snippets from VHDL source code, which will be recognized correctly (test_v1_0_S00_AXI.vhd is this example).
+The following is an example with snippets from VHDL source code, which will be recognized correctly (test_v1_0_S00_AXI.vhd is this example).
 
 ```vhdl
 entity test_v1_0_S00_AXI is
