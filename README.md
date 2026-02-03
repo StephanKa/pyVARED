@@ -1,19 +1,17 @@
 # pyVARED - Python VHDL Automatic Register Extract Definition
 
-[![Build Status](https://travis-ci.org/crafti5/pyVARED.svg?branch=master)](https://travis-ci.org/crafti5/pyVARED)
-
-[![Coverage Status](https://coveralls.io/repos/github/crafti5/pyVARED/badge.svg?branch=master)](https://coveralls.io/github/crafti5/pyVARED?branch=master)
-
+[![Build Status](https://travis-ci.org/StephanKa/pyVARED.svg?branch=master)](https://travis-ci.org/StephanKa/pyVARED)
+[![Coverage Status](https://coveralls.io/repos/github/StephanKa/pyVARED/badge.svg?branch=master)](https://coveralls.io/github/StephanKa/pyVARED?branch=master)
 [![Quality Status](https://sonarcloud.io/api/badges/gate?key=pyVARED)](https://sonarcloud.io/api/badges/gate?key=pyVARED)
-
 [![Code Smells](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=code_smells)](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=code_smells)
-
 [![Bugs](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=bugs)](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=bugs)
+[![Technical Debt](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=sqale_debt_ratio)](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=sqale_debt_ratio)
 
-[![Bugs](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=sqale_debt_ratio)](https://sonarcloud.io/api/badges/measure?key=pyVARED&metric=sqale_debt_ratio)
+[SonarCloud Dashboard](https://sonarcloud.io/dashboard?id=pyVARED)
 
+## Overview
 
-[SonarCloud](https://sonarcloud.io/dashboard?id=pyVARED)
+pyVARED is a Python tool that automatically generates AXI register definitions from VHDL source files. It scans directories for VHDL files ending with "S00_AXI.vhd" and extracts register definitions, then generates documentation and code in multiple formats.
 
 ## Python Support
 
@@ -24,12 +22,49 @@ Python 3.9+
 - 3.12
 - nightly
 
-## General
+## Installation
 
-This script will generate AXI register definitions from VHDL sources.
-The script will through all sub directories and look for the files with ending "S00_AXI.vhd". These files will be parsed for all existing register.
+### From Source
 
-Following there is an example with snippets from VHDL source code, which will recognized correctly (test_v1_0_S00_AXI.vhd is this example).
+```bash
+git clone https://github.com/StephanKa/pyVARED.git
+cd pyVARED
+pip install -e .
+```
+
+### Development Installation
+
+```bash
+git clone https://github.com/StephanKa/pyVARED.git
+cd pyVARED
+pip install -e ".[dev]"
+```
+
+## Usage
+
+1. Place your VHDL files with AXI register definitions in the `ip_repo` directory
+2. Run the main script:
+
+```bash
+python main.py
+```
+
+3. The generated files will be available in the `generated` directory
+
+## Supported Output Formats
+
+pyVARED generates register maps in multiple formats:
+- **C Header** (.hpp) - For embedded C/C++ applications
+- **Python Module** (.py) - Python register definitions
+- **HTML** (.html) - Interactive HTML documentation with index
+- **Markdown** (.md) - Markdown documentation
+- **JSON** (.json) - Machine-readable JSON format
+- **Rust** (.rs) - Rust register definitions
+- **Text** (.txt) - Plain text documentation
+
+## VHDL Register Definition Format
+
+The following is an example with snippets from VHDL source code, which will be recognized correctly (test_v1_0_S00_AXI.vhd is this example).
 
 ```vhdl
 entity test_v1_0_S00_AXI is
@@ -80,21 +115,74 @@ architecture arch_imp of test_v1_0_S00_AXI is
 end arch_imp;
 ```
 
-# General
-## main.py
-The starting point is the script where all the magic will start.
+## Project Structure
 
-## registerDefinition.py
-With this script we define a class which contains all needed information about the register.
+### main.py
+The entry point script where all the processing starts. It orchestrates the file parsing and code generation.
 
-## template.py
-This script will hold a class in it which comes with a template definition you can use for deriving and add own defintion for any other programming language
+### registerDefinition.py
+Defines a class that contains all needed information about a register.
 
-## vhdlFileParser.py
-This script will called everytime there is a register definition file found and it will extract all needed informations.
+### vhdlFileParser.py
+Called whenever a register definition file is found. Extracts all register information from VHDL files.
 
-# Create new programming generation files
-Put your new plugin the in plugin folder. Derive from the TemplateClass und write your code down there
-File name: 'generate< LANGUAGENAME >RegisterMap.< LANGUAGEENDING >'
+### plugins/
+Contains generator plugins for different output formats:
+- `generateCRegisterMap.py` - C/C++ header generation
+- `generatePythonRegisterMap.py` - Python module generation
+- `generateHtmlRegisterMap.py` - HTML documentation generation
+- `generateMarkdownRegisterMap.py` - Markdown documentation generation
+- `generateJSONRegisterMap.py` - JSON format generation
+- `generateRustRegisterMap.py` - Rust code generation
+- `generateTextRegisterMap.py` - Plain text documentation
+- `templateFileGeneration.py` - Base template class for plugins
 
-If you want to add a plugin to this repository, please make sure that you pass the "PEP8 Style Gudie" (use "pycodestyle" for checking)
+## Creating New Output Format Plugins
+
+To add support for a new programming language or output format:
+
+1. Create a new file in the `plugins` folder with the naming convention:
+   ```
+   generate<LANGUAGENAME>RegisterMap.<LANGUAGEENDING>
+   ```
+
+2. Derive from the `TemplateClass` in `templateFileGeneration.py`
+
+3. Implement your custom generation logic
+
+4. The plugin will be automatically discovered and used by the main script
+
+## Contributing
+
+Contributions are welcome! When submitting a plugin or changes to this repository, please ensure your code follows the project's code style guidelines.
+
+### Code Style
+
+This project uses modern Python code formatting and linting tools:
+- **Black** - Code formatter (line length: 180)
+- **Ruff** - Fast Python linter
+- **Pylint** - Additional code quality checks
+
+Before submitting changes, run:
+
+```bash
+# Format code
+black .
+
+# Check linting
+ruff check .
+
+# Run pylint
+pylint **/*.py
+```
+
+### Running Tests
+
+```bash
+cd tests
+coverage run --branch --source=../ tests.py
+```
+
+## License
+
+This project is licensed under the GPL-3.0 License - see the LICENSE file for details.
