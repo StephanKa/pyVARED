@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyVARED"
+version = "1.0.0"
+description = "Python VHDL Automatic Register Extract Definition"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "GPL-3.0"}
+dependencies = [
+    "pyyaml>=5.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=24.0.0",
+    "ruff>=0.1.0",
+    "pylint>=3.0.0",
+    "coverage>=7.0.0",
+    "unittest-xml-reporting>=4.0.0",
+]
+
+[tool.black]
+line-length = 180
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | generated
+  | ip_repo
+)/
+'''
+
+[tool.ruff]
+line-length = 180
+target-version = "py39"
+exclude = [
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".tox",
+    ".venv",
+    "build",
+    "dist",
+    "generated",
+    "ip_repo",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+]
+
+[tool.pylint.main]
+py-version = "3.9"
+ignore = ["generated", "ip_repo", ".git"]
+
+[tool.pylint.format]
+max-line-length = 180
+
+[tool.pylint.messages_control]
+disable = [
+    "C0103",  # invalid-name
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    "R0903",  # too-few-public-methods
+    "R0913",  # too-many-arguments
+    "W0621",  # redefined-outer-name
+]
