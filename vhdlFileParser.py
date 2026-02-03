@@ -1,4 +1,4 @@
-from registerDefinition import *
+from registerDefinition import RegisterDefinition
 import re
 
 REGISTER_SIZE = 32

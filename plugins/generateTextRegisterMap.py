@@ -1,4 +1,4 @@
-from templateFileGeneration import *
+from plugins.templateFileGeneration import TemplateGeneration
 
 
 class GenerateTextRegisterMap(TemplateGeneration):

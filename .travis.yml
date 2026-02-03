@@ -1,13 +1,10 @@
 sudo: required
 language: python
 python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.6-dev"
-  - "3.7-dev" # 3.7 development branch
+  - "3.9"
+  - "3.10"
+  - "3.11"
+  - "3.12"
   - "nightly"
 addons:
   apt:
@@ -25,8 +22,11 @@ addons:
 before_install:
   - pip install coveralls
 install:
-  - pip install xmlrunner coverage pyyaml
+  - pip install unittest-xml-reporting coverage pyyaml black ruff pylint
 script:
+  - black --check --diff .
+  - ruff check .
+  - pylint **/*.py --exit-zero
   - cd tests
   - coverage run --branch --source=../ tests.py
   - coverage xml -i

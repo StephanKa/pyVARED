@@ -5,3 +5,13 @@ tests/test.py
 tests/test.txt
 tests/.coverage
 tests/coverage/test-results.xml
+.ruff_cache
+.pytest_cache
+.mypy_cache
+__pycache__
+*.egg-info
+.coverage
+.tox
+.venv
+venv
+env

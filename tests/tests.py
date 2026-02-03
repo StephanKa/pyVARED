@@ -14,13 +14,13 @@ import sys
 import os
 import xmlrunner
 sys.path.extend(["../", "../plugins/"])
-import registerDefinition
-import vhdlFileParser
+from registerDefinition import RegisterDefinition
+from vhdlFileParser import FileParseOperation
 import IpCoreGeneration
-from plugins.generateTextRegisterMap import *
-from plugins.generateHtmlRegisterMap import *
-from plugins.generatePythonRegisterMap import *
-from plugins.generateCRegisterMap import *
+from plugins.generateTextRegisterMap import GenerateTextRegisterMap
+from plugins.generateHtmlRegisterMap import GenerateHTMLMap, GenerateComponentIndex
+from plugins.generatePythonRegisterMap import GeneratePythonModule
+from plugins.generateCRegisterMap import GenerateCHeader
 
 
 class TestIpCoreGeneration(unittest.TestCase):
@@ -40,7 +40,7 @@ class TestGenerateComponentIndex(unittest.TestCase):
 
     def test_header_generation(self):
         ''' file header_generation test '''
-        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        parser = FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
         self.assertIsNotNone(parser.component_name)
         self.assertIsNotNone(parser.ip_core_version_naming)
         self.assertIsNotNone(parser.ip_core_version)
@@ -54,7 +54,7 @@ class TestGenerateHTMLMap(unittest.TestCase):
 
     def test_header_generation(self):
         ''' file header_generation test '''
-        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        parser = FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
         self.assertIsNotNone(parser.component_name)
         self.assertIsNotNone(parser.ip_core_version_naming)
         self.assertIsNotNone(parser.ip_core_version)
@@ -69,7 +69,7 @@ class TestGenerateTextRegisterMap(unittest.TestCase):
 
     def test_header_generation(self):
         ''' file header_generation test '''
-        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        parser = FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
         self.assertIsNotNone(parser.component_name)
         self.assertIsNotNone(parser.ip_core_version_naming)
         self.assertIsNotNone(parser.ip_core_version)
@@ -84,7 +84,7 @@ class TestGeneratePythonModule(unittest.TestCase):
 
     def test_header_generation(self):
         ''' file header_generation test '''
-        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        parser = FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
         self.assertIsNotNone(parser.component_name)
         self.assertIsNotNone(parser.ip_core_version_naming)
         self.assertIsNotNone(parser.ip_core_version)
@@ -99,7 +99,7 @@ class TestGenerateCHeader(unittest.TestCase):
 
     def test_header_generation(self):
         ''' file header_generation test '''
-        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        parser = FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
         self.assertIsNotNone(parser.component_name)
         self.assertIsNotNone(parser.ip_core_version_naming)
         self.assertIsNotNone(parser.ip_core_version)
@@ -114,7 +114,7 @@ class TestVhdlFileParser(unittest.TestCase):
 
     def test_instantiation(self):
         ''' file parser test '''
-        parser = vhdlFileParser.FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
+        parser = FileParseOperation(os.getcwd() + '/../ip_repo/test_v1_0_S00_AXI.vhd')
         self.assertIsNotNone(parser.component_name)
         self.assertIsNotNone(parser.ip_core_version_naming)
         self.assertIsNotNone(parser.ip_core_version)
@@ -126,7 +126,7 @@ class TestRegisterDefinition(unittest.TestCase):
 
     def test_instantiation(self):
         ''' will only test the successfull instantiation '''
-        reg_def = registerDefinition.RegisterDefinition()
+        reg_def = RegisterDefinition()
         self.assertEqual(reg_def.component_name, None)
         self.assertEqual(reg_def.orginal_slave_name, None)
         self.assertEqual(reg_def.variable_name, None)
@@ -138,12 +138,12 @@ class TestRegisterDefinition(unittest.TestCase):
 
     def test_string_return(self):
         ''' will test the __str__ function '''
-        reg_def = registerDefinition.RegisterDefinition()
+        reg_def = RegisterDefinition()
         self.assertIsNotNone(str(reg_def))
 
     def test_add_bit_definition(self):
         ''' will test the __str__ function '''
-        reg_def = registerDefinition.RegisterDefinition()
+        reg_def = RegisterDefinition()
         reg_def._add_bit_definition('test', 0)
         self.assertEqual(reg_def.bit_definition, [['test', 0]])
         reg_def._add_bit_definition('test')
@@ -158,7 +158,7 @@ if(__name__ == '__main__'):
     if(len(sys.argv)) < 2:
         if(not os.path.exists('coverage')):
             os.mkdir('coverage')
-        with open('coverage/test-results.xml', 'w') as output:
+        with open('coverage/test-results.xml', 'wb') as output:
             unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output),
                           # these make sure that some options that are not applicable
                           # remain hidden from the help menu.

@@ -1,4 +1,5 @@
-from templateFileGeneration import *
+from plugins.templateFileGeneration import TemplateGeneration
+import os
 
 
 class GenerateHTMLMap(TemplateGeneration):

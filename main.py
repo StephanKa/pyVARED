@@ -4,12 +4,12 @@
 
 import os
 import time
-from registerDefinition import *
-from vhdlFileParser import *
-from plugins.generateTextRegisterMap import *
-from plugins.generateHtmlRegisterMap import *
-from plugins.generatePythonRegisterMap import *
-from plugins.generateCRegisterMap import *
+from registerDefinition import RegisterDefinition
+from vhdlFileParser import FileParseOperation
+from plugins.generateTextRegisterMap import GenerateTextRegisterMap, GenerateComponentIndex
+from plugins.generateHtmlRegisterMap import GenerateHTMLMap
+from plugins.generatePythonRegisterMap import GeneratePythonModule
+from plugins.generateCRegisterMap import GenerateCHeader
 
 
 if __name__ == '__main__':

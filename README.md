@@ -17,14 +17,12 @@
 
 ## Python Support
 
-2.7
-3.3
-3.4
-3.5
-3.6
-3.6-dev
-3.7-dev
-nightly
+Python 3.9+
+- 3.9
+- 3.10
+- 3.11
+- 3.12
+- nightly
 
 ## General
 

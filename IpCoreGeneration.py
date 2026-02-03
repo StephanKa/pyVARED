@@ -187,7 +187,8 @@ class YamlDefinition():
         return self.component_version.strftime(formatting)
 
     def __read_input(self):
-        return yaml.load(open(self.path, 'r'))
+        with open(self.path, 'r') as file:
+            return yaml.safe_load(file)
 
 
 if __name__ == '__main__':
